@@ -1,5 +1,5 @@
-const  sqlite3  =  require('sqlite3').verbose();
-const database = new sqlite3.Database("./my.db");
+//const  sqlite3  =  require('sqlite3').verbose();
+//const database = new sqlite3.Database("./my.db");
 var self = module.exports={
     register : (data, callback)=>{
     const  nome  	  =  data.nome;
@@ -37,13 +37,11 @@ var self = module.exports={
     });
     },
     createUser:(user, cb) => {
-        return  database.run('INSERT INTO users (nome,sobrenome,cpf,email,celular,logradouro,complemento,bairro,cidade,estado,cep,dataNascimento,estadoCivil,qtddFilho,tipoParticipacao,qtddMoradores,responsavelFinanceiro,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',user, (err) => {
-            cb(err)
-        });
+        //return  database.run('INSERT INTO users (nome,sobrenome,cpf,email,celular,logradouro,complemento,bairro,cidade,estado,cep,dataNascimento,estadoCivil,qtddFilho,tipoParticipacao,qtddMoradores,responsavelFinanceiro,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',user, (err) => {cb(err)});
+        cb({});
     },
     findUserByEmail:(email, cb) => {
-        return  database.get(`SELECT * FROM users WHERE email = ?`,[email], (err, row) => {
-                cb(err, row)
-        });
+        //return  database.get(`SELECT * FROM users WHERE email = ?`,[email], (err, row) => {cb(err, row)});
+        cb({})
     }
 }

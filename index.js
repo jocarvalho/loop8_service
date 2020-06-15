@@ -1,13 +1,14 @@
 "use strict";
-const tables = require('./tables');
+//const tables = require('./tables');
 const clientes = require('./src/cliente/cliente');
 const produtos = require('./src/produto/produto');
-const register = require('./src/register/register')
+const register = require('./src/register/register');
+const ecobags = require('./src/ecobag/ecobag');
 
 const  express  =  require('express');
 const  bodyParser  =  require('body-parser');
 const cors = require('cors')
-const  sqlite3  =  require('sqlite3').verbose();
+//const  sqlite3  =  require('sqlite3').verbose();
 const  jwt  =  require('jsonwebtoken');
 const  bcrypt  =  require('bcryptjs');
 const https = require('https');
@@ -52,19 +53,42 @@ router.use((req, res, next)=>{
     }*/
 });
 
-const database = new sqlite3.Database("./my.db");
+//const database = new sqlite3.Database("./my.db");
 
 
 
 
 
 
-tables.createAll();
+//tables.createAll();
 
 router.get('/', (req, res) => {
     res.status(200).send('This is an authentication server');
 });
 
+router.get('/ecobag/:id', (req, res) => {
+    const id = req.params.id;
+    ecobags.listarById(id,(err, ecobag)=>{
+        res.status(200).send({ecobag:ecobag,id:id});
+    });
+});
+router.get('/ecobag',(req, res)=>{
+    console.log(`ecobags`)
+    ecobags.listarAll((err, lista)=>{
+        if(err)
+            res.status(400).send({erro:err});
+        res.status(200).send({ecobags:lista});
+    });
+});
+router.post('/ecobag', (req, res) => {
+    const insert = req.body;
+    insert.data = Date.now();
+    ecobags.adicionar(insert,(err, result)=>{
+        if(err)
+            res.status(400).send({resposta:err});
+        res.status(200).send({resposta:result});
+    })
+});
 router.post('/register', (req, res) => {
     register.register(req.body,(err,user)=>{
         if(err)
